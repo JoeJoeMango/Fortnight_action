@@ -36,14 +36,9 @@ class Fortnite {
 				} catch(e) {
 					return reject(e);
 				}
-
 			});
-
 		});
-
-
 	}
-
 }
 
 module.exports = Fortnite;
