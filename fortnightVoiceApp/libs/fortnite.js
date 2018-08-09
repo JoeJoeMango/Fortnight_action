@@ -31,7 +31,6 @@ class Fortnite {
 			}, (error, responce, body) => {
 				try {
 					const result = JSON.parse(body);
-					console.log(result);
 					return resolve(result);
 				} catch(e) {
 					return reject(e);

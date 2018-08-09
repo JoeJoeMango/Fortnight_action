@@ -10,14 +10,11 @@ var path = require('path');
 var request = require('request');
 var bodyParser = require('body-parser');
 // var capitalize = require('lodash.capitalize');
-
 const asyncHandler = require('./middlewares/async-handler');
-
 const dialogflow = require('./middlewares/dialogflow');
 
 app.use(bodyParser.json());
 app.use(dialogflow);
-
 
 app.use((err, req, res, next) => {
 	console.log('err', err.message);
