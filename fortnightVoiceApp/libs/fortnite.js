@@ -22,7 +22,7 @@ class Fortnite {
 					'TRN-Api-Key': this.apiKey
 				}
 		});
-		
+
 		return new Promise((resolve, reject) => {
 			request.get(`${this.constructor.url}/${platform}/${nickname}`, {
 				headers: {
@@ -31,6 +31,7 @@ class Fortnite {
 			}, (error, responce, body) => {
 				try {
 					const result = JSON.parse(body);
+					console.log(result);
 					return resolve(result);
 				} catch(e) {
 					return reject(e);
