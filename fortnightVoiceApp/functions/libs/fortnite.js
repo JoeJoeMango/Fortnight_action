@@ -17,6 +17,7 @@ class Fortnite {
 
 
 	getUser(nickname, platform = 'pc') {
+		console.log(this.name);
     console.log({
 				headers: {
 					'TRN-Api-Key': this.apiKey
@@ -29,16 +30,39 @@ class Fortnite {
 				}
 			}, (error, responce, body) => {
 
-
 				try {
 					const result = JSON.parse(body);
+
+					if(result.error) {
+						return reject(new Error(result.error));
+					}
+
 					return resolve(result);
+
 				} catch(e) {
 					return reject(e);
 				}
 			});
 		});
 	}
+
+	async tryUsernames(usernames) {
+
+		for(const username of usernames) {
+
+			try {
+				console.log('Trying: ', username);
+				const data = await this.getUser(username);
+
+				return { username, data };
+			} catch(e) {}
+
+		}
+
+		throw new Error('No valid users');
+
+	}
+
 }
 
 module.exports = Fortnite;
