@@ -40,6 +40,7 @@ class Fortnite {
 					return resolve(result);
 
 				} catch(e) {
+					console.log(body);
 					return reject(e);
 				}
 			});
@@ -47,6 +48,9 @@ class Fortnite {
 	}
 
 	async tryUsernames(usernames) {
+
+		if(!Array.isArray(usernames))
+			usernames = [usernames];
 
 		for(const username of usernames) {
 
