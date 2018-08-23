@@ -118,8 +118,11 @@ app.intent('kill_stats', async(conv, {username_two, LifeTimeStats}) => {
 
     if(diff > 0){
 		    stats.push(`<speak> ${username_two} has ${requestedStats[index].value} ${item.key}. You have ${diff} more ${item.key} then player ${conv.data.usernameEntryTwo}. Keep up the good work ${conv.data.usernameEntry}</speak>`);
+        conv.close(stats.join('\n'));
+
     }else if (item.value < requestedStats[index].value){
-      stats.push(`<speak> You have ${diff*-1} less ${item.key} then ${username_two}. Yes I said ${diff*-1}. Seems like you have your work cut out for you.</speak>`);
+        stats.push(`<speak> You have ${diff*-1} less ${item.key} then ${username_two}. Yes I said ${diff*-1}. Seems like you have your work cut out for you.</speak>`);
+        conv.close(stats.join('\n'));
     }
   });
   conv.ask(stats.join('\n'));
