@@ -1,6 +1,6 @@
 const {	dialogflow } = require('actions-on-google');
 const Fortnite = require('./../libs/fortnite');
-const fortnite = new Fortnite('0bfa97b1-d015-481e-8736-48d3fea8cb36');
+const fortnite = new Fortnite('xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx');
 
 
 const app = dialogflow();
