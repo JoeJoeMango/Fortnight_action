@@ -4,7 +4,6 @@ const fortnite = new Fortnite('0bfa97b1-d015-481e-8736-48d3fea8cb36');
 
 
 const app = dialogflow();
-const userData = {};
 const values = {};
 const intentOff = {};
 
@@ -39,24 +38,27 @@ function normalizeUsername(username) {
 }
 
 app.intent('Default Welcome Intent', (conv) => {
-    conv.ask(`Welcome to the fortnight stat comparison tool. Lets get started, whats your fortnight username?`);
+  console.log(conv.user.storage.username);
+
+  if(conv.user.storage && conv.user.storage.username) {
+    return conv.ask('Welcome back: ' + conv.user.storage.username + ' What can I do for you?');
+  }
+
+  conv.ask(`Welcome to the fortnight stat comparison tool. I can compare your kills, wins, Matches Played, or score against any fornite player. So Lets get started, whats your fortnight username?`);
 });
 
 app.intent('username_login', async(conv, {userName_one}) => {
   console.log(conv, 'username_login');
-if (!intentOff[conv.body.session]){
+  if (!intentOff[conv.body.session]){
   intentOff[conv.body.ssesion] = true;
       var user__ = {userName_one};
       const normalizedUsername = normalizeUsername(userName_one);
   		console.log('Username login', conv.body.session);
-  		console.log('Username: ', userName_one);
-  		userData[conv.body.session] = {
-  			username: userName_one
-  		};
 
       try {
         const loggedUsername = await getLoggedUserData([userName_one, normalizedUsername]);
         conv.data.usernameEntry = user__.userName_one;
+        conv.user.storage.username = loggedUsername;
         conv.ask(`<speak>Thankyou ${loggedUsername} spelled. <say-as interpret-as="verbatim">${loggedUsername}</say-as> What fortnight player would you like to compaire your stats to?</speak>`);
         // intentOff = true;
       } catch(e) {
@@ -76,8 +78,7 @@ if (!intentOff[conv.body.session]){
 app.intent('kill_stats', async(conv, {username_two, LifeTimeStats}) => {
     console.log(conv, 'kill_stats');
 
-
-	const { username } = userData[conv.body.session] || {};
+	const { username } = conv.user.storage || {};
     var user__two = {username_two};
     var statType = {LifeTimeStats};
     conv.data.killsOrWins = statType.LifeTimeStats;
@@ -86,10 +87,10 @@ app.intent('kill_stats', async(conv, {username_two, LifeTimeStats}) => {
     console.log(username_two);
 
     if(username_two) {
-      userData[conv.body.session].lastComparison = username_two;
+      conv.user.storage.lastComparison = username_two;
     }
 
-    if(!username_two) username_two = userData[conv.body.session].lastComparison;
+    if(!username_two) username_two = conv.user.storage.lastComparison;
 
 	if(!username) {
 		return conv.ask('sorry what is your username again?');
@@ -117,20 +118,23 @@ app.intent('kill_stats', async(conv, {username_two, LifeTimeStats}) => {
       const diff = item.value - requestedStats[index].value;
 
     if(diff > 0){
-		    stats.push(`<speak> ${username_two} has ${requestedStats[index].value} ${item.key}. You have ${diff} more ${item.key} then player ${conv.data.usernameEntryTwo}. Keep up the good work ${conv.data.usernameEntry}</speak>`);
+		    stats.push(`<speak> ${username_two} has ${requestedStats[index].value} ${item.key}. You have ${diff} more ${item.key} then player ${conv.data.usernameEntryTwo}. Which other stat would you like to compare? If not just say goodbye, i'm done, see ya. </speak>`);
 
     }else if (item.value < requestedStats[index].value){
-        stats.push(`<speak> You have ${diff*-1} less ${item.key} then ${username_two}. Yes I said ${diff*-1}. Seems like you have your work cut out for you.</speak>`);
+        stats.push(`<speak> You have ${diff*-1} less ${item.key} then ${username_two}. Yes I said ${diff*-1}. Which other stat would you like to compare? If not just say goodbye, i'm done, see ya. </speak>`);
 
     }
   });
   conv.ask(stats.join('\n'));
   // conv.close(stats.join('\n'));
+});
 
+app.intent('ending', (conv) =>{
+  conv.ask(`<speak> This is not goodbye, this is ill see you later. </speak>`);
 });
 
 app.intent('username_check', (conv) => {
-  conv.ask(`${conv.data.usernameEntry}`);
+  conv.close(`${conv.data.usernameEntry}`);
 });
 
 module.exports = app;
