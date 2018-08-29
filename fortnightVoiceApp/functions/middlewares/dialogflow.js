@@ -125,7 +125,8 @@ app.intent('kill_stats', async(conv, {username_two, LifeTimeStats}) => {
     }
   });
   // conv.ask(stats.join('\n'));
-    // conv.close(stats.join('\n'));
+  conv.close(stats.join('\n'));
+
 });
 
 app.intent('username_check', (conv) => {
