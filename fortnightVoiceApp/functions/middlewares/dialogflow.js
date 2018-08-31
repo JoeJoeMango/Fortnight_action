@@ -41,7 +41,7 @@ app.intent('Default Welcome Intent', (conv) => {
   console.log(conv.user.storage.username);
 
   if(conv.user.storage && conv.user.storage.username) {
-    return conv.ask('Welcome back: ' + conv.user.storage.username + ' What can I do for you?');
+    return conv.ask('Welcome back ' + conv.user.storage.username + ' Which fortnight player and stat type would you like to compaire your stats to?');
   }
 
   conv.ask(`Welcome to the fortnight stat comparison tool. I can compare your kills, wins, Matches Played, or score against any fornite player. So Lets get started, whats your fortnight username?`);
