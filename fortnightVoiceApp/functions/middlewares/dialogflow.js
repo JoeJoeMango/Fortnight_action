@@ -59,7 +59,7 @@ app.intent('username_login', async(conv, {userName_one}) => {
         const loggedUsername = await getLoggedUserData([userName_one, normalizedUsername]);
         conv.data.usernameEntry = user__.userName_one;
         conv.user.storage.username = loggedUsername;
-        conv.ask(`<speak>Thankyou ${loggedUsername} spelled. <say-as interpret-as="verbatim">${loggedUsername}</say-as> What fortnight player would you like to compaire your stats to?</speak>`);
+        conv.ask(`<speak>Thankyou ${loggedUsername} spelled. <say-as interpret-as="verbatim">${loggedUsername}</say-as> Which fortnight player and stat type would you like to compaire your stats to?</speak>`);
         // intentOff = true;
       } catch(e) {
         conv.ask(`Invalid username: ${userName_one}`);
