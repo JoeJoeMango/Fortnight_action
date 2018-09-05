@@ -1,6 +1,6 @@
 const {	dialogflow } = require('actions-on-google');
 const Fortnite = require('./../libs/fortnite');
-const fortnite = new Fortnite('0bfa97b1-d015-481e-8736-48d3fea8cb36');
+const fortnite = new Fortnite('xxx-xxx-xxx-xxx-xxx');
 
 
 const app = dialogflow();
@@ -48,9 +48,11 @@ app.intent('Default Welcome Intent', (conv) => {
 });
 
 app.intent('username_login', async(conv, {userName_one}) => {
-  console.log(conv, 'username_login');
+  // console.log(conv, 'username_login');
+
   if (!intentOff[conv.body.session]){
   intentOff[conv.body.ssesion] = true;
+
       var user__ = {userName_one};
       const normalizedUsername = normalizeUsername(userName_one);
   		console.log('Username login', conv.body.session);
@@ -66,7 +68,6 @@ app.intent('username_login', async(conv, {userName_one}) => {
       }
     }else{
       conv.ask(`to change user say change user then the username`);
-
     }
   });
 
